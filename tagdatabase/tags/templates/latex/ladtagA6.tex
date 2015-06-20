@@ -1,0 +1,113 @@
+{% autoescape off %}
+\documentclass{article}
+
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage[utf8]{inputenc}
+\usepackage[labelformat=empty,skip=4pt]{caption}
+\usepackage[export]{adjustbox}
+\usepackage{wrapfig}
+\usepackage[a6paper,landscape]{geometry}
+\usepackage{qrcode}
+\usepackage[swedish]{isodate}
+\usepackage[parfill]{parskip}
+\geometry{tmargin=1cm,lmargin=1.5cm,rmargin=1.5cm}
+\isodate
+
+\def\version{0.1}
+
+%\ifdefined\tagid
+%\else
+%	\def\tagid{dummy tag}
+%\fi
+
+\def\tagid{ {{ tag.pk }} }
+\def\memberid{ {{ tag.user_id }} }
+\def\tagboxnumber{ {{ tag.box_number }} }
+\def\membername{ {{ tag.name }} }
+\def\tagprintdate{ {{ tag.print_date }} }
+\def\tagcomment{ {{ tag.comment }} }
+
+\lfoot{v.\version}
+\rfoot{\today}
+
+\begin{document}
+
+\begin{wrapfigure}[0]{r}{0.3\textwidth}
+\vspace{0.5cm}
+\qrcode[height=4cm]{\tagid}
+\caption{\tagid}
+\end{wrapfigure}
+
+\includegraphics[width=0.7\textwidth]{makerlkpg-cut.png}
+
+\vspace{1.3cm}
+
+Medlems-nr:
+\begin{tabular}{>{\centering}p{3em}}
+	\memberid
+	\tabularnewline
+    \hline
+
+\end{tabular}Låd nr: \begin{tabular}{>{\centering}p{3em}}
+	\tagboxnumber
+	\tabularnewline
+    \hline
+
+\end{tabular}
+
+Namn:
+\begin{tabular}{>{\centering}p{13em}}
+	\membername
+	\tabularnewline
+    \hline
+
+\end{tabular}
+
+Datum:
+\begin{tabular}{>{\centering}p{12.5em}}
+	\tagprintdate
+	\tabularnewline
+    \hline
+
+\end{tabular}
+
+Kommentar:
+\begin{tabular}{>{\centering}p{10.5em}}
+	\tagcomment
+	\tabularnewline
+    \hline
+\end{tabular}
+
+\begin{tabular}{>{\centering}p{16.5em}}
+	\tabularnewline
+    \hline
+\end{tabular}
+\newpage
+
+\section*{Regler}
+
+\begin{itemize}
+	\item Alla lådor ska vara märkta med en etikett.
+    \item Alla föremål som går ner i en låda ska vara i en låda.
+    \item Alla föremål som inte går ner i en låda ska vara märkta med en etikett.
+\end{itemize}
+
+\section*{Användning}
+
+Denna etikett är till för att märka lådor och föremål som medlemmar förvarar i makerspacets lokal.
+
+\begin{enumerate}
+  \item Fyll i uppgifter på sidan med logotypen.
+  \item Om etiketten är utskriven på A4 vik den dubbel så att sidan med logotypen är synlig.
+  \item Fäst etiketten på en kortsida på lådan antingen i  en plastficka eller med tejp.
+\end{enumerate}
+
+\end{document}
+{% endautoescape %}

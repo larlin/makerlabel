@@ -1,0 +1,6 @@
+*~
+tagdatabase/tags/templates/latex/test.*
+tagdatabase/tags/templates/latex/qrcode.sty
+tagdatabase/tags/templates/latex/makerlkpg-cut.png
+*.pyc
+*sqlite3

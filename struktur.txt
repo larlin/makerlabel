@@ -1,0 +1,42 @@
+Listsida
+	En sida med en lista på aktiva etiketter där varje etikett har en
+	medlems namn och en siffra för vilken låda det är. Varje rad
+	innehåller eller är i sig en länk till detaljsidan. Även en länk
+	till "Skapa ny etikett" ska finnas kan vara i en meny lösning eller
+	något annat tydligt ställe.
+	
+Etikett detajler
+	En sida med all information om en etikett i dagsläget följande:
+		* Medlemsnamn - Namnet på medlemen som skrivit ut etiketten
+		* Låd nummer - Vilken av medlemens lådor det är
+		* Utskrifts datum - Datum när etiketten skapades
+		* Kommentar - En lite längre text som inte alltid innehåller något.
+	Denna sida ska innehålla två tydliga länkar en till "Skriv ut" och en till
+	"Ladda ner". Detta kan vara i delen för menyn eller något annat tydligt
+	ställe.
+
+Skapa etikett
+	En sida med ett formulär med samma fällt som etikett detalj sidan
+	Själva formuläret kan jag ordna om det underlättar
+	CSS:en bör ha en bra definition av <strong> för felmedelande vid
+	formulär fel.
+	
+Allmänt
+
+Det bör finnas någon yta där det går att ha en meny och väldigt gärna redan
+finns ett förslag på hur en meny skulle se ut men den kommer kanske inte att
+användas till en början.
+
+En yta för överskrifter för varje sida och en yta med plats för lite
+längre text.
+
+I övrigt har jag ingen större åsikt om layout eller liknande.
+
+Länkar:
+		 ->   ...
+		 -> Etikett detaljer
+Listsida -> Etikett detaljer
+	|	 -> Etikett detaljer
+	|    ->   ...
+	v
+Skapa etikett
