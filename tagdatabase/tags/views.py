@@ -73,6 +73,30 @@ def download(request, tag_id):
     
     return response
 
-def print(requesst, tag_id):
+def print_pdf(request, tag_id):
+    # Might not be the most buitiful solution but anyway....
+    # This view will download the pdf from the download view
+    # and then print it with lp to the local default printer...
     tag = get_object_or_404(Tag, pk=tag_id)
+    with tempfile.TemporaryDirectory() as tempdir:
+        tempfilename = "file.pdf"
+        url = request.get_host()
+        dlprocess = Popen(
+            ['wget', '--output-document', tempfilename, url+reverse('tags:download', args=(tag.pk,))],
+            stdin=PIPE,
+            stdout=PIPE,
+            cwd=tempdir
+        )
+        dlprocess.wait()
+        
+        #lp ladtagA6.pdf -o media=A5 -o landscape -o sides=two-sides-long-edge -o number-up=2 -o fit-to-page
+        printprocess = Popen(
+            ['lp', tempfilename, '-o', 'media=A5', '-o', 'landscape', '-o', 'sides=two-sides-long-edge',
+            '-o', 'number-up=2', '-o', 'fit-to-page'],
+            stdin=PIPE,
+            stdout=PIPE,
+            cwd=tempdir
+        )
+        printprocess.wait()
+    return HttpResponseRedirect(reverse('tags:details_long', args=(tag_id,)))
 
