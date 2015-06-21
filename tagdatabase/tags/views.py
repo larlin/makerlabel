@@ -40,11 +40,9 @@ def download(request, tag_id):
         with open(os.path.join(tempdir, filename), 'rb') as f:
             pdf = f.read()
      
-    # TODO: Create a fancy name for the pdf with the member name and box number.
-    # Remember to remove spaces from name.
-    pdffile = "{}-{}.pdf".format(tag.user_id, tag.box_number)
+    
     response = HttpResponse(pdf, content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="{}"'.format(pdffile)
+    response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
     
     return response
 
