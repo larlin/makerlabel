@@ -1,3 +1,7 @@
+<p>
 {{ tag.name }} ({{ tag.user_id }}.{{ tag.box_number }})<br>
 {{ tag.print_date }}<br>
 {{ tag.comment }}<br>
+</p>
+<a href="{% url 'tags:download' tag.id %}">Ladda ner</a>
+<a href="{% url 'tags:print_pdf' tag.id %}">Skriv ut</a>

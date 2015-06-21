@@ -8,33 +8,32 @@ import os
 import shutil
 import tags
 from django.core.urlresolvers import reverse
+from django.views import generic
+from django.views.generic.edit import CreateView
 
 from .models import Tag
 from .forms import TagForm
 
 # Create your views here.
-
-def details(request, tag_id):
-    tag = get_object_or_404(Tag, pk=tag_id)
-    return render(request, 'tags/details.html', {'tag': tag})
-
-def list(request):
-    tag_list = Tag.objects.order_by('-print_date')
-    context = {'tag_list': tag_list,}
-    return render(request, 'tags/list.html', context)
-
-def add(request):
-	if request.method == 'POST':
-		form = TagForm(request.POST)
-		
-		if form.is_valid():
-			new_tag = form.save()
-			return HttpResponseRedirect(reverse('tags:details_long', args=(new_tag.pk,)))
-		else:
-			form = TagForm()
-	else:
-		form = TagForm()
-	return render(request, 'tags/add.html', {'form': form})
+    
+class DetailView(generic.DetailView):
+    model = Tag
+    template_name = 'tags/details.html'
+    context_object_name = 'tag'
+    
+class ListView(generic.ListView):
+    model = Tag
+    template_name = 'tags/list.html'
+    context_object_name = 'tag_list'
+	
+    def get_queryset(self):
+        return Tag.objects.order_by('-print_date')
+	
+class Add(CreateView):
+    model = Tag
+    fields = '__all__'
+    template_name = 'tags/add.html'
+    form_class = TagForm
 
 def download(request, tag_id):
     tag = get_object_or_404(Tag, pk=tag_id)

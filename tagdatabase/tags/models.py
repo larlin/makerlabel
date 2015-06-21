@@ -8,4 +8,7 @@ class Tag(models.Model):
     name = models.CharField(max_length=20)  
     print_date = models.DateField('print date')
     comment = models.CharField(max_length=50)
+    def get_absolute_url(self):
+    	from django.core.urlresolvers import reverse
+    	return reverse('tags:details_long', args=[str(self.id)])
 
