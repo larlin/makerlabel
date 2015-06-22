@@ -4,9 +4,8 @@ from django.template.loader import get_template
 from subprocess import Popen, PIPE
 import tempfile
 import os
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.views import generic
-from django.views.generic.edit import CreateView
 
 from .models import Tag
 from .forms import TagForm
@@ -26,11 +25,22 @@ class ListView(generic.ListView):
     def get_queryset(self):
         return Tag.objects.filter(visible=True).order_by('-print_date')
 	
-class Add(CreateView):
+class Add(generic.CreateView):
     model = Tag
     fields = '__all__'
     template_name = 'tags/add.html'
     form_class = TagForm
+
+class Delete(generic.DeleteView):
+    model = Tag
+    success_url = reverse_lazy('tags:list')
+    template_name = 'tags/delete.html'
+    
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.visible = False
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
 
 def download(request, tag_id):
     tag = get_object_or_404(Tag, pk=tag_id)

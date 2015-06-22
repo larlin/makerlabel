@@ -18,6 +18,12 @@ class Tag(models.Model):
     def get_absolute_url(self):
     	from django.core.urlresolvers import reverse
     	return reverse('tags:details_long', args=[str(self.id)])
+    	
+    def __unicode__( self ):
+        return "{0} {1}".format( self.name, self.box_number )
+    
+    def __str__( self ):
+        return "{0} {1}".format( self.name, self.box_number )
     
     sentinel = object()
     def generate_pdf(self, work_directory, template, destination=sentinel):
