@@ -24,7 +24,7 @@ class ListView(generic.ListView):
     context_object_name = 'tag_list'
 	
     def get_queryset(self):
-        return Tag.objects.order_by('-print_date')
+        return Tag.objects.filter(visible=True).order_by('-print_date')
 	
 class Add(CreateView):
     model = Tag

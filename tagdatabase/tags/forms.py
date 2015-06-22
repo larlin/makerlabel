@@ -4,6 +4,7 @@ from .models import Tag
 class TagForm(ModelForm):
     class Meta:
         model = Tag
-        fields = '__all__'
+        #fields = '__all__'
+        exclude = ('visible', )
 
 

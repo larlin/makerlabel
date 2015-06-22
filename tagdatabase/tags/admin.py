@@ -7,8 +7,8 @@ from .models import Tag
 class TagAdmin(admin.ModelAdmin):
     fieldsets = [
         ('User data',               {'fields': ['user_id', 'name']}),
-        ('Box data', {'fields': ['box_number', 'comment']}),
+        ('Box data', {'fields': ['box_number', 'comment', 'visible']}),
     ]
-    list_display = ('name', 'box_number')
+    list_display = ('name', 'box_number', 'visible')
 
 admin.site.register(Tag, TagAdmin)
