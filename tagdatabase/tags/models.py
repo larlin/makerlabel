@@ -7,10 +7,20 @@ import tags
 
 # Create your models here.
 
-class Tag(models.Model):
-    user_id = models.IntegerField(default=0)
-    box_number = models.IntegerField(default=0)
+class Member(models.Model):
     name = models.CharField(max_length=20)  
+    box_num = models.IntegerField(default=0)
+	
+    def __unicode__( self ):
+        return "{0}".format( self.name)
+    
+    def __str__( self ):
+        return "{0}".format( self.name )
+
+class Tag(models.Model):
+    member_id = models.ForeignKey('Member')
+    box_number = models.IntegerField(default=0)
+    #name = models.CharField(max_length=20)  
     print_date = models.DateField('print date')
     comment = models.CharField(max_length=50)
     visible = models.BooleanField(default=True)
@@ -20,10 +30,10 @@ class Tag(models.Model):
     	return reverse('tags:details_long', args=[str(self.id)])
     	
     def __unicode__( self ):
-        return "{0} {1}".format( self.name, self.box_number )
+        return "{0} {1}".format( self.box_number )
     
     def __str__( self ):
-        return "{0} {1}".format( self.name, self.box_number )
+        return "{0} {1}".format( self.box_number )
     
     sentinel = object()
     def generate_pdf(self, work_directory, template, destination=sentinel):

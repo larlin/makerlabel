@@ -8,6 +8,7 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.views import generic
 
 from .models import Tag
+from .models import Member
 from .forms import TagForm
 
 # Create your views here.
