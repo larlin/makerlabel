@@ -2,6 +2,7 @@
 
 <form action="{% url 'tags:add' %}" method="post">
     {% csrf_token %}
+        {{ member_form }}
         {{ form }}
     <input type="submit" value="Lägg till" />
 </form>

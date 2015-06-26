@@ -8,7 +8,8 @@ import tags
 # Create your models here.
 
 class Member(models.Model):
-    name = models.CharField(max_length=20)  
+    name = models.CharField(max_length=20)
+    member_number = models.IntegerField(default=0)
     box_num = models.IntegerField(default=0)
 	
     def __unicode__( self ):
@@ -30,10 +31,10 @@ class Tag(models.Model):
     	return reverse('tags:details_long', args=[str(self.id)])
     	
     def __unicode__( self ):
-        return "{0} {1}".format( self.box_number )
+        return "{0}".format( self.box_number )
     
     def __str__( self ):
-        return "{0} {1}".format( self.box_number )
+        return "{0}".format( self.box_number )
     
     sentinel = object()
     def generate_pdf(self, work_directory, template, destination=sentinel):
