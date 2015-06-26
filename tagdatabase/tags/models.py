@@ -31,10 +31,10 @@ class Tag(models.Model):
     	return reverse('tags:details_long', args=[str(self.id)])
     	
     def __unicode__( self ):
-        return "{0}".format( self.box_number )
+        return "{0}({1})".format( self.member_id, self.box_number )
     
     def __str__( self ):
-        return "{0}".format( self.box_number )
+        return "{0}({1})".format( self.member_id, self.box_number )
     
     sentinel = object()
     def generate_pdf(self, work_directory, template, destination=sentinel):
@@ -43,7 +43,7 @@ class Tag(models.Model):
         
         # TODO: Create a fancy name for the pdf with the member name and box number.
         # Remember to remove spaces from name.
-        filename = "{}-{}.pdf".format(self.user_id, self.box_number)
+        filename = "{}({}).pdf".format(self.member_id.id, self.box_number)
         
         #filename = "document"
         # Render latex from template provided

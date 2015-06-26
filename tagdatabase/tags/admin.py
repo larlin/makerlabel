@@ -10,7 +10,7 @@ class TagAdmin(admin.ModelAdmin):
         ('User data', {'fields': ['member_id', ]}),
         ('Box data', {'fields': ['box_number', 'comment', 'visible']}),
     ]
-    list_display = ('box_number', 'visible')
+    list_display = ('member_id', 'box_number', 'visible')
 
 class MemberAdmin(admin.ModelAdmin):
 	list_display = ('name', 'box_num')

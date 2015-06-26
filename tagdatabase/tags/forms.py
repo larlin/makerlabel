@@ -21,7 +21,6 @@ class TagForm(ModelForm):
     
     class Meta:
         model = Tag
-        #fields = '__all__'
         exclude = ('print_date', 'box_number', 'visible', )
     
     def clean(self):

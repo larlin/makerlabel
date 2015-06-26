@@ -2,7 +2,7 @@
 {% if tag_list %}
     <ul>
     {% for tag in tag_list %}
-        <li><a href="{% url 'tags:details' tag.id %}">{{ tag.name }}({{ tag.box_number }})</a></li>
+        <li><a href="{% url 'tags:details' tag.id %}">{{ tag }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
