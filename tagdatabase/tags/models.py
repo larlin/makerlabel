@@ -21,7 +21,6 @@ class Member(models.Model):
 class Tag(models.Model):
     member_id = models.ForeignKey('Member')
     box_number = models.IntegerField(default=0)
-    #name = models.CharField(max_length=20)  
     print_date = models.DateField('print date')
     comment = models.CharField(max_length=50)
     visible = models.BooleanField(default=True)
@@ -45,7 +44,6 @@ class Tag(models.Model):
         # Remember to remove spaces from name.
         filename = "{}({}).pdf".format(self.member_id.id, self.box_number)
         
-        #filename = "document"
         # Render latex from template provided
         context = Context({ 'tag': self,})
         rendered_tpl = template.render(context).encode('utf-8')
