@@ -45,7 +45,10 @@ class TagForm(ModelForm):
             print(member.__dict__)
             # TODO: This is ugly and bad, setting id to trick the verfication
             # of user in the case that member id is not set because we are
-            # creating a new member now.
+            # creating a new member now. This is really bad as it requires
+            # user id 1 to be in use at all times. There must be a way to handle
+            # this situation without saving the user before save(commit=True) is
+            # called.
             member.id = 1
             member.new_member = True
             print(self.cleaned_data)
