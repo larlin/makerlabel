@@ -2,6 +2,8 @@
 	* Comment is not required for tags
 	* member_id and box_number should be unique implent a unique constraint
 
+* Add urls to latex for the QR-code and send it to the template for inclusion.
+
 * Create a dummy user with id 1 to make the dirty hack in forms.py somewhat
   stable,
   
