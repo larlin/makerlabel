@@ -4,3 +4,5 @@ tagdatabase/tags/templates/latex/qrcode.sty
 tagdatabase/tags/templates/latex/makerlkpg-cut.png
 *.pyc
 *sqlite3
+tagdatabase/tags/templates/latex/*.log
+tagdatabase/tags/templates/latex/*.aux

@@ -47,7 +47,7 @@ def download(request, tag_id):
     tag = get_object_or_404(Tag, pk=tag_id)
 
     with tempfile.TemporaryDirectory() as tempdir:
-        filename = tag.generate_pdf(tempdir, get_template('latex/ladtagA6.tex'))
+        filename = tag.generate_pdf(tempdir, get_template('latex/ladtagA6.tex'), request.META['HTTP_HOST'])
         with open(os.path.join(tempdir, filename), 'rb') as f:
             pdf = f.read()
      

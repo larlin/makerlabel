@@ -36,7 +36,7 @@ class Tag(models.Model):
         return "{0}({1})".format( self.member_id, self.box_number )
     
     sentinel = object()
-    def generate_pdf(self, work_directory, template, destination=sentinel):
+    def generate_pdf(self, work_directory, template, url, destination=sentinel):
         if destination is self.sentinel:
             destination = work_directory
         
@@ -45,7 +45,7 @@ class Tag(models.Model):
         filename = "{}({}).pdf".format(self.member_id.id, self.box_number)
         
         # Render latex from template provided
-        context = Context({ 'tag': self,})
+        context = Context({ 'tag': self, 'url':'{}/{}'.format(url, self.pk)})
         rendered_tpl = template.render(context).encode('utf-8')
         
         # Copy files needed for the latex run to the work directory.

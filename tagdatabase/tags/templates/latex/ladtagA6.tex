@@ -28,6 +28,7 @@
 %\fi
 
 \def\tagid{ {{ tag.pk }} }
+\def\tagurl{ {{ url }} }
 \def\memberid{ {{ tag.member_id.id }} }
 \def\tagboxnumber{ {{ tag.box_number }} }
 \def\membername{ {{ tag.member_id.name }} }
@@ -41,8 +42,8 @@
 
 \begin{wrapfigure}[0]{r}{0.3\textwidth}
 \vspace{0.5cm}
-\qrcode[height=4cm]{\tagid}
-\caption{\tagid}
+\qrcode[height=4cm]{\tagurl}
+\caption{\tagurl}
 \end{wrapfigure}
 
 \includegraphics[width=0.7\textwidth]{makerlkpg-cut.png}

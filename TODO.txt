@@ -4,6 +4,8 @@
 
 * Add urls to latex for the QR-code and send it to the template for inclusion.
 
+* Move urls to /*
+
 * Create a dummy user with id 1 to make the dirty hack in forms.py somewhat
   stable,
   
