@@ -22,7 +22,7 @@ class Tag(models.Model):
     member_id = models.ForeignKey('Member')
     box_number = models.IntegerField(default=0)
     print_date = models.DateField('print date')
-    comment = models.CharField(max_length=50)
+    comment = models.CharField(max_length=50, blank=True)
     visible = models.BooleanField(default=True)
     
     def get_absolute_url(self):

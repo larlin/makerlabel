@@ -1,5 +1,5 @@
 * Update models with required and such where applicable:
-	* Comment is not required for tags
+	* DONE Comment is not required for tags DONE
 	* member_id and box_number should be unique implent a unique constraint
 
 * DONE Add urls to latex for the QR-code and send it to the template for inclusion. DONE
