@@ -60,7 +60,7 @@ def download(request, tag_id):
 def print_pdf(request, tag_id):
     tag = get_object_or_404(Tag, pk=tag_id)
     with tempfile.TemporaryDirectory() as tempdir:        
-        tempfilename = tag.generate_pdf(tempdir, get_template('latex/ladtagA6.tex'))
+        tempfilename = tag.generate_pdf(tempdir, get_template('latex/ladtagA6.tex'), request.META['HTTP_HOST'])
         
         #lp ladtagA6.pdf -o media=A5 -o landscape -o sides=two-sides-long-edge -o number-up=2 -o fit-to-page
         printprocess = Popen(
