@@ -63,9 +63,12 @@ def print_pdf(request, tag_id):
         tempfilename = tag.generate_pdf(tempdir, get_template('latex/ladtagA6.tex'), request.META['HTTP_HOST'])
         
         #lp ladtagA6.pdf -o media=A5 -o landscape -o sides=two-sides-long-edge -o number-up=2 -o fit-to-page
+        #lp ladtagA6.pdf -o media=A4 -o landscape -o sides=two-sides-long-edge -o number-up=4 -o fit-to-page
+        #            ['lp', tempfilename, '-o', 'media=A5', '-o', 'landscape', '-o', 'sides=two-sides-long-edge',
+        #    '-o', 'number-up=2', '-o', 'fit-to-page'],
         printprocess = Popen(
-            ['lp', tempfilename, '-o', 'media=A5', '-o', 'landscape', '-o', 'sides=two-sides-long-edge',
-            '-o', 'number-up=2', '-o', 'fit-to-page'],
+            ['lp', tempfilename, '-o', 'media=A4', '-o', 'portrait', '-o', 'sides=two-sides-long-edge',
+            '-o', 'number-up=4', '-o', 'fit-to-page'],
             stdin=PIPE,
             stdout=PIPE,
             cwd=tempdir

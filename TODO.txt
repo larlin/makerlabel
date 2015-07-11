@@ -6,6 +6,8 @@
 
 * DONE Move urls to /*       DONE
 
+* Add a configurationation option to change between different paper sizes.
+
 * Create a dummy user with id 1 to make the dirty hack in forms.py somewhat
   stable,
   
