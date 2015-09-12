@@ -50,7 +50,7 @@ class Tag(models.Model):
         
         # Copy files needed for the latex run to the work directory.
         latex_static_dir = os.path.dirname(tags.__file__) + "/latex_static/"
-        shutil.copy(latex_static_dir+"makerlkpg-cut.png", work_directory)
+        shutil.copy(latex_static_dir+"MakersLink-line-color.png", work_directory)
         shutil.copy(latex_static_dir+"qrcode.sty", work_directory)
         # Run pdflatex twice, for complete rendering of TOC and such.
         for i in range(2):
