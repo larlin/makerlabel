@@ -13,4 +13,4 @@
   
 * Remove ugly hack in forms.py
 
-* Generate a better pdf file name in models.py
+* DONE Generate a better pdf file name in models.py DONE

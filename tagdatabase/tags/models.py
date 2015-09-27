@@ -40,9 +40,8 @@ class Tag(models.Model):
         if destination is self.sentinel:
             destination = work_directory
         
-        # TODO: Create a fancy name for the pdf with the member name and box number.
-        # Remember to remove spaces from name.
-        filename = "{}({}).pdf".format(self.member_id.id, self.box_number)
+        formatedName = self.member_id.name.replace(" ", "_")
+        filename = "{}({})".format(formatedName, self.box_number)
         
         # Render latex from template provided
         context = Context({ 'tag': self, 'url':'{}/{}'.format(url, self.pk)})
