@@ -18,30 +18,53 @@ class Member(models.Model):
     def __str__( self ):
         return "{0}".format( self.name )
 
-class Tag(models.Model):
-    member_id = models.ForeignKey('Member')
-    box_number = models.IntegerField(default=0)
+
+class BaseTag(models.Model):
     print_date = models.DateField('print date')
+    
+    class Meta:
+        abstract = True
+
+class MemberBaseTag(BaseTag):
+    member_id = models.ForeignKey('Member')
     comment = models.CharField(max_length=50, blank=True)
     visible = models.BooleanField(default=True)
     
     def get_absolute_url(self):
     	from django.core.urlresolvers import reverse
-    	return reverse('tags:details_long', args=[str(self.id)])
+    	return reverse('tags:details_long', args=[str(self.basetag.id)])
     	
+    def __str__( self ):
+        return self.get_formated_name()
+    
     def __unicode__( self ):
-        return "{0}({1})".format( self.member_id, self.box_number )
+        return self.get_formated_name()
+    
+    def get_formated_name( self ):
+        return self.member_id.name.replace(" ", "_")
+
+class MemberShelfTag(MemberBaseTag):
+    def __str__( self ):
+        return self.get_formated_name()
+    
+    def __unicode__( self ):
+        return self.get_formated_name()
+
+class MemberBoxTag(MemberBaseTag):
+    box_number = models.IntegerField(default=0)
     
     def __str__( self ):
-        return "{0}({1})".format( self.member_id, self.box_number )
+        return "{}({})".format(self.get_formated_name(), self.box_number)
     
+    def __unicode__( self ):
+        return "{}({})".format(self.get_formated_name(), self.box_number)
+        
     sentinel = object()
     def generate_pdf(self, work_directory, template, url, destination=sentinel):
         if destination is self.sentinel:
             destination = work_directory
         
-        formatedName = self.member_id.name.replace(" ", "_")
-        filename = "{}({})".format(formatedName, self.box_number)
+        filename = "{}({})".format(self.get_formated_name(), self.box_number)
         
         # Render latex from template provided
         context = Context({ 'tag': self, 'url':'{}/{}'.format(url, self.pk)})

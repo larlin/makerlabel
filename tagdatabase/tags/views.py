@@ -7,33 +7,34 @@ import os
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.views import generic
 
-from .models import Tag
+from .models import MemberBoxTag
 from .models import Member
-from .forms import TagForm
+from .models import MemberBaseTag
+from .forms import MemberBoxTagForm
 
 # Create your views here.
     
 class DetailView(generic.DetailView):
-    model = Tag
+    model = MemberBoxTag
     template_name = 'tags/details.html'
     context_object_name = 'tag'
     
 class ListView(generic.ListView):
-    model = Tag
+    model = MemberBoxTag
     template_name = 'tags/list.html'
     context_object_name = 'tag_list'
 	
     def get_queryset(self):
-        return Tag.objects.filter(visible=True).order_by('-print_date')
+        return MemberBaseTag.objects.filter(visible=True).order_by('-print_date')
 	
 class Add(generic.CreateView):
-    model = Tag
+    model = MemberBoxTag
     fields = '__all__'
     template_name = 'tags/add.html'
-    form_class = TagForm
+    form_class = MemberBoxTagForm
 
 class Delete(generic.DeleteView):
-    model = Tag
+    model = MemberBoxTag
     success_url = reverse_lazy('tags:list')
     template_name = 'tags/delete.html'
     

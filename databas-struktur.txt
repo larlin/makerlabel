@@ -1,0 +1,44 @@
+Old
+
+Tag:
+    member_id
+    box_number
+    print_date
+    comment
+    visible
+    
+Member:
+    name
+    member_number
+    box_num
+
+New
+
+BaseTag:
+    print_date
+    visible
+    type
+    
+MemberBaseTag(BaseTag):
+    member_id
+    comment
+
+MemberBoxTag(MemberBaseTag):
+    box_number
+    
+MemberShelfTag(MemberBaseTag):
+
+MachineTag(BaseTag):
+
+MachineTagIcons:
+    tag_icon_id
+    machine_tag_id
+
+TagIcons:
+    name
+    file_name
+
+Member:
+    name
+    member_number
+    box_num

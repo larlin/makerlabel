@@ -1,12 +1,12 @@
 from django.forms import ModelForm
 from django import forms
-from .models import Tag
+from .models import MemberBoxTag
 from .models import Member
 from django.forms.models import inlineformset_factory
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 
-class TagForm(ModelForm):
+class MemberBoxTagForm(ModelForm):
     # extra fields from Member...
     name = forms.CharField(max_length=20, required=False)
     member_number = forms.IntegerField(required=False)
@@ -20,7 +20,7 @@ class TagForm(ModelForm):
         
     
     class Meta:
-        model = Tag
+        model = MemberBoxTag
         exclude = ('print_date', 'box_number', 'visible', )
     
     def clean(self):
@@ -61,7 +61,7 @@ class TagForm(ModelForm):
     def save(self, commit=True):
         print("After save")
         tag = super(TagForm, self).save(commit=False)
-        tag.print_date = timezone.now()
+        tag.basetag.print_date = timezone.now()
         tag.box_number = self.cleaned_data['member_id'].box_num
         if self.cleaned_data['member_id'].new_member :
             self.cleaned_data['member_id'].id = None
