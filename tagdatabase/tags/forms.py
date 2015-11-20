@@ -12,7 +12,7 @@ class MemberBoxTagForm(ModelForm):
     member_number = forms.IntegerField(required=False)
     
     def __init__(self, *args, **kwargs):
-        super(TagForm, self).__init__(*args, **kwargs)
+        super(MemberBoxTagForm, self).__init__(*args, **kwargs)
         
         self.fields['member_id'].required = False
         self.fields['member_id'].blank = True
@@ -24,7 +24,7 @@ class MemberBoxTagForm(ModelForm):
         exclude = ('print_date', 'box_number', 'visible', )
     
     def clean(self):
-        cleaned_data = super(TagForm, self).clean()
+        cleaned_data = super(MemberBoxTagForm, self).clean()
         member = cleaned_data.get("member_id")
         name = cleaned_data.get("name")
         member_number = cleaned_data.get("member_number")
@@ -60,8 +60,8 @@ class MemberBoxTagForm(ModelForm):
         
     def save(self, commit=True):
         print("After save")
-        tag = super(TagForm, self).save(commit=False)
-        tag.basetag.print_date = timezone.now()
+        tag = super(MemberBoxTagForm, self).save(commit=False)
+        tag.print_date = timezone.now()
         tag.box_number = self.cleaned_data['member_id'].box_num
         if self.cleaned_data['member_id'].new_member :
             self.cleaned_data['member_id'].id = None
@@ -70,5 +70,5 @@ class MemberBoxTagForm(ModelForm):
             self.cleaned_data['member_id'].save()
         tag.member_id = self.cleaned_data['member_id']
         print(self.cleaned_data)
-        return super(TagForm, self).save(commit=commit)
+        return super(MemberBoxTagForm, self).save(commit=commit)
 

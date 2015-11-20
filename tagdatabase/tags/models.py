@@ -53,6 +53,10 @@ class MemberShelfTag(MemberBaseTag):
 class MemberBoxTag(MemberBaseTag):
     box_number = models.IntegerField(default=0)
     
+    def get_absolute_url(self):
+        from django.core.urlresolvers import reverse
+        return reverse('tags:details_long', args=[str(self.id)])
+    
     def __str__( self ):
         return "{}({})".format(self.get_formated_name(), self.box_number)
     

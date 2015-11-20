@@ -45,7 +45,7 @@ class Delete(generic.DeleteView):
         return HttpResponseRedirect(self.get_success_url())
 
 def download(request, tag_id):
-    tag = get_object_or_404(Tag, pk=tag_id)
+    tag = get_object_or_404(MemberBoxTag, pk=tag_id)
 
     with tempfile.TemporaryDirectory() as tempdir:
         filename = tag.generate_pdf(tempdir, get_template('latex/ladtagA6.tex'), request.META['HTTP_HOST'])
@@ -59,7 +59,7 @@ def download(request, tag_id):
     return response
 
 def print_pdf(request, tag_id):
-    tag = get_object_or_404(Tag, pk=tag_id)
+    tag = get_object_or_404(MemberBoxTag, pk=tag_id)
     with tempfile.TemporaryDirectory() as tempdir:        
         tempfilename = tag.generate_pdf(tempdir, get_template('latex/ladtagA6.tex'), request.META['HTTP_HOST'])
         
