@@ -76,8 +76,10 @@ class MemberBoxTag(MemberBaseTag):
         
         # Copy files needed for the latex run to the work directory.
         latex_static_dir = os.path.dirname(tags.__file__) + "/latex_static/"
-        shutil.copy(latex_static_dir+"MakersLink-line-color.png", work_directory)
-        shutil.copy(latex_static_dir+"qrcode.sty", work_directory)
+        for file_name in os.listdir(latex_static_dir):
+            print ("Copying: "+file_name+" to "+work_directory)
+            shutil.copy(latex_static_dir+"/"+file_name, work_directory)
+        
         # Run pdflatex twice, for complete rendering of TOC and such.
         for i in range(2):
             process = Popen(
