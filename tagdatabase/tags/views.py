@@ -10,22 +10,28 @@ from django.views import generic
 from .models import MemberBoxTag
 from .models import Member
 from .models import MemberBaseTag
+from .models import BaseTag
 from .forms import MemberBoxTagForm
 
 # Create your views here.
     
 class DetailView(generic.DetailView):
     model = MemberBoxTag
-    template_name = 'tags/details.html'
     context_object_name = 'tag'
     
+    #def get_template_names(self):
+    #    return 'tags/details.html'
+    
+    def get_queryset(self):
+        return BaseTag.objects.select_subclasses()
+    
 class ListView(generic.ListView):
-    model = MemberBoxTag
+    model = BaseTag
     template_name = 'tags/list.html'
     context_object_name = 'tag_list'
 	
     def get_queryset(self):
-        return MemberBaseTag.objects.filter(visible=True).order_by('-print_date')
+        return BaseTag.objects.filter(visible=True).order_by('-print_date').select_subclasses()
 	
 class Add(generic.CreateView):
     model = MemberBoxTag

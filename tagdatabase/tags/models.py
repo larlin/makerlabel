@@ -22,6 +22,7 @@ class Member(models.Model):
 
 class BaseTag(models.Model):
     print_date = models.DateField('print date')
+    visible = models.BooleanField(default=True)
     objects = InheritanceManager()
     
 
@@ -31,7 +32,6 @@ class MachineTag(BaseTag):
 class MemberBaseTag(BaseTag):
     member_id = models.ForeignKey('Member')
     comment = models.CharField(max_length=50, blank=True)
-    visible = models.BooleanField(default=True)
     
     def get_absolute_url(self):
     	from django.core.urlresolvers import reverse
