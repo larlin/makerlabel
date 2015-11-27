@@ -22,7 +22,7 @@ class DetailView(generic.DetailView):
     def get_queryset(self):
         return BaseTag.objects.select_subclasses()
     
-class ListView(generic.ListView):
+class TagListView(generic.ListView):
     model = BaseTag
     template_name = 'tags/list.html'
     context_object_name = 'list'

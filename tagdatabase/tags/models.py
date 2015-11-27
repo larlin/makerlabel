@@ -24,7 +24,6 @@ class BaseTag(models.Model):
     print_date = models.DateField('print date')
     visible = models.BooleanField(default=True)
     objects = InheritanceManager()
-    
 
 class MachineTag(BaseTag):
     info = models.CharField(max_length=50, blank=True)
