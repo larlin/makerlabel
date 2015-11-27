@@ -19,19 +19,21 @@ class DetailView(generic.DetailView):
     model = MemberBoxTag
     context_object_name = 'tag'
     
-    #def get_template_names(self):
-    #    return 'tags/details.html'
-    
     def get_queryset(self):
         return BaseTag.objects.select_subclasses()
     
 class ListView(generic.ListView):
     model = BaseTag
     template_name = 'tags/list.html'
-    context_object_name = 'tag_list'
+    context_object_name = 'list'
 	
     def get_queryset(self):
         return BaseTag.objects.filter(visible=True).order_by('-print_date').select_subclasses()
+
+class MemberListView(generic.ListView):
+    model = Member
+    template_name = 'tags/list.html'
+    context_object_name = 'list'
 	
 class Add(generic.CreateView):
     model = MemberBoxTag

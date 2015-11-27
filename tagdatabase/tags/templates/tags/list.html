@@ -1,10 +1,10 @@
 <a href="{% url 'tags:add' %}">Skapa ny</a>
 {% if tag_list %}
     <ul>
-    {% for tag in tag_list %}
+    {% for tag in list %}
         <li><a href="{% url 'tags:details' tag.id %}">{{ tag }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
-    <p>Inga skyltar tillgängliga.</p>
+    <p>Listan är tom.</p>
 {% endif %}
