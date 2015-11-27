@@ -22,8 +22,9 @@ class Member(models.Model):
 class BaseTag(models.Model):
     print_date = models.DateField('print date')
     
-    class Meta:
-        abstract = True
+
+class MachineTag(BaseTag):
+    info = models.CharField(max_length=50, blank=True)
 
 class MemberBaseTag(BaseTag):
     member_id = models.ForeignKey('Member')

@@ -11,9 +11,29 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
+            name='BaseTag',
+            fields=[
+                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
+                ('print_date', models.DateField(verbose_name='print date')),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='MachineTag',
+            fields=[
+                ('basetag_ptr', models.OneToOneField(auto_created=True, serialize=False, to='tags.BaseTag', parent_link=True, primary_key=True)),
+                ('info', models.CharField(max_length=50, blank=True)),
+            ],
+            options={
+            },
+            bases=('tags.basetag',),
+        ),
+        migrations.CreateModel(
             name='Member',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, primary_key=True, serialize=False)),
+                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
                 ('name', models.CharField(max_length=20)),
                 ('member_number', models.IntegerField(default=0)),
                 ('box_num', models.IntegerField(default=0)),
@@ -25,34 +45,30 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='MemberBaseTag',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, primary_key=True, serialize=False)),
-                ('print_date', models.DateField(verbose_name='print date')),
-                ('comment', models.CharField(blank=True, max_length=50)),
+                ('basetag_ptr', models.OneToOneField(auto_created=True, serialize=False, to='tags.BaseTag', parent_link=True, primary_key=True)),
+                ('comment', models.CharField(max_length=50, blank=True)),
                 ('visible', models.BooleanField(default=True)),
             ],
             options={
-                'abstract': False,
             },
-            bases=(models.Model,),
+            bases=('tags.basetag',),
         ),
         migrations.CreateModel(
             name='MemberBoxTag',
             fields=[
-                ('memberbasetag_ptr', models.OneToOneField(primary_key=True, to='tags.MemberBaseTag', auto_created=True, parent_link=True, serialize=False)),
+                ('memberbasetag_ptr', models.OneToOneField(auto_created=True, serialize=False, to='tags.MemberBaseTag', parent_link=True, primary_key=True)),
                 ('box_number', models.IntegerField(default=0)),
             ],
             options={
-                'abstract': False,
             },
             bases=('tags.memberbasetag',),
         ),
         migrations.CreateModel(
             name='MemberShelfTag',
             fields=[
-                ('memberbasetag_ptr', models.OneToOneField(primary_key=True, to='tags.MemberBaseTag', auto_created=True, parent_link=True, serialize=False)),
+                ('memberbasetag_ptr', models.OneToOneField(auto_created=True, serialize=False, to='tags.MemberBaseTag', parent_link=True, primary_key=True)),
             ],
             options={
-                'abstract': False,
             },
             bases=('tags.memberbasetag',),
         ),
