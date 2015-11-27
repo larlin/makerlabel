@@ -1,0 +1,15 @@
+<a href="{% url 'tags:main' %}">Återvänd till lista</a>
+<p>
+{{ tag.name }}<br>
+{{ tag.info }}
+</p>
+
+{% if object_list %}
+    <ul>
+    {% for comment in object_list %}
+        <li>{{ comment.commentText }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Inga kommentarer.</p>
+{% endif %}

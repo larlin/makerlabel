@@ -1,4 +1,5 @@
 Medlemmar
+<a href="{% url 'tags:add' %}">Lägg till ny</a>
 
 {% if members %}
     <ul>
@@ -11,6 +12,7 @@ Medlemmar
 {% endif %}
 
 Maskiner
+<a href="{% url 'tags:machine_tag_add' %}">Lägg till ny</a>
 {% if machines %}
     <ul>
     {% for machine in machines %}
