@@ -1,7 +1,7 @@
 <a href="{% url 'tags:add' %}">Skapa ny</a>
-{% if list %}
+{% if tags %}
     <ul>
-    {% for tag in list %}
+    {% for tag in tags %}
         <li><a href="{% url 'tags:details' tag.id %}">{{ tag }}</a></li>
     {% endfor %}
     </ul>

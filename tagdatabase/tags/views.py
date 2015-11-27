@@ -28,18 +28,15 @@ class MemberDetailView(generic.DetailView):
     
 class TagListView(generic.ListView):
     model = BaseTag
-    template_name = 'tags/list.html'
-    context_object_name = 'list'
+    context_object_name = 'tags'
 	
     def get_queryset(self):
         return BaseTag.objects.filter(visible=True).order_by('-print_date').select_subclasses()
 
 class MemberListView(generic.ListView):
     model = Member
-    template_name = 'tags/list.html'
-    context_object_name = 'list'
-	
-	#initial = { 'value1': 'foo', 'value2': 'bar' }
+    context_object_name = 'members'
+
 class Add(generic.CreateView):
     model = MemberBoxTag
     fields = '__all__'
@@ -47,9 +44,9 @@ class Add(generic.CreateView):
     form_class = MemberBoxTagForm
     
     def get_initial(self, **kwargs):
-        if 'pk' in self.kwargs:
-            print (self.kwargs['pk'])
-            return { 'member_id' : self.kwargs['pk'] }
+        if 'member_id' in self.kwargs:
+            print (self.kwargs['member_id'])
+            return { 'member_id' : self.kwargs['member_id'] }
         return {}
 
 class Delete(generic.DeleteView):

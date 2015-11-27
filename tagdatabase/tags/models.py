@@ -47,10 +47,10 @@ class MemberBaseTag(BaseTag):
 
 class MemberShelfTag(MemberBaseTag):
     def __str__( self ):
-        return self.get_formated_name()
+        return self.get_formated_name()+"(hylla)"
     
     def __unicode__( self ):
-        return self.get_formated_name()
+        return self.get_formated_name()+"(hylla)"
 
 class MemberBoxTag(MemberBaseTag):
     box_number = models.IntegerField(default=0)

@@ -1,0 +1,9 @@
+{% if members %}
+    <ul>
+    {% for member in members %}
+        <li><a href="{% url 'tags:member_details' member.id %}">{{ member }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Listan är tom.</p>
+{% endif %}

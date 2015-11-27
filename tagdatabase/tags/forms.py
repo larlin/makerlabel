@@ -8,11 +8,15 @@ from django.core.exceptions import ValidationError
 
 class MemberBoxTagForm(ModelForm):
     # extra fields from Member...
-    name = forms.CharField(max_length=20, required=False)
-    member_number = forms.IntegerField(required=False)
+
     
     def __init__(self, *args, **kwargs):
         super(MemberBoxTagForm, self).__init__(*args, **kwargs)
+        
+        initial = kwargs.get('initial', {})
+        if not 'member_id' in initial:
+            self.fields['name'] = forms.CharField(max_length=20, required=False)
+            self.fields['member_number'] = forms.IntegerField(required=False)
         
         self.fields['member_id'].required = False
         self.fields['member_id'].blank = True
