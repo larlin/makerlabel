@@ -1,5 +1,5 @@
-Medlemmar
-<a href="{% url 'tags:add' %}">Lägg till ny</a>
+<a href="{% url 'tags:add' %}">Lägg till ny etikett</a>
+<h2>Medlemmar</h2>
 
 {% if members %}
     <ul>
@@ -11,8 +11,8 @@ Medlemmar
     <p>Listan är tom.</p>
 {% endif %}
 
-Maskiner
-<a href="{% url 'tags:machine_tag_add' %}">Lägg till ny</a>
+<h2>Maskiner</h2>
+<a href="{% url 'tags:machine_tag_add' %}">Lägg till ny maskin</a>
 {% if machines %}
     <ul>
     {% for machine in machines %}

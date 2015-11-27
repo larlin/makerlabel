@@ -15,6 +15,8 @@
 
 * DONE Generate a better pdf file name in models.py DONE
 
+* Add view and form for adding comments to machines.
+
 * Extract common super class from MachineTagAdd and Add view classes
 
 * Extract common super class for MachineTagDetailView and MemberDetailView view classes.
