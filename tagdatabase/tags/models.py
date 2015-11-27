@@ -29,6 +29,16 @@ class MachineTag(BaseTag):
     name = models.CharField(max_length=50, blank=False)
     contact = models.ForeignKey('Member')
     info = models.CharField(max_length=400, blank=True)
+    
+    def get_absolute_url(self):
+        from django.core.urlresolvers import reverse
+        return reverse('tags:machine_tag_details', args=[str(self.id)])
+    
+    def __str__( self ):
+        return self.name
+    
+    def __unicode__( self ):
+        return self.name
 
 class Comment(models.Model):
     writer = models.ForeignKey('Member')
@@ -41,8 +51,8 @@ class MemberBaseTag(BaseTag):
     objects = InheritanceManager()
     
     def get_absolute_url(self):
-    	from django.core.urlresolvers import reverse
-    	return reverse('tags:details_long', args=[str(self.basetag.id)])
+        from django.core.urlresolvers import reverse
+        return reverse('tags:details_long', args=[str(self.id)])
     	
     def __str__( self ):
         return self.get_formated_name()

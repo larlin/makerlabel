@@ -1,7 +1,7 @@
 <a href="{% url 'tags:main' %}">Återvänd till lista</a>
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<form action="{% url 'tags:add' %}" method="post">
+<form action="{% url 'tags:machine_tag_add' %}" method="post">
     {% csrf_token %}
         {{ form }}
     <input type="submit" value="Lägg till" />

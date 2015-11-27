@@ -14,7 +14,7 @@ Maskiner
 {% if machines %}
     <ul>
     {% for machine in machines %}
-        <li><a href="{% url 'tags:member_details' member.id %}">{{ machine }}</a></li>
+        <li><a href="{% url 'tags:machine_tag_details' machine.id %}">{{ machine }}</a></li>
     {% endfor %}
     </ul>
 {% else %}

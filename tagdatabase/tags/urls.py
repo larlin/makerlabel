@@ -9,6 +9,8 @@ urlpatterns = patterns('',
     url(r'^members/(?P<pk>\d+)/$', views.MemberDetailView.as_view(), name='member_details'),
     # Machine tag view
     url(r'^machines/(?P<pk>\d+)/$', views.MachineTagDetailView.as_view(), name='machine_tag_details'),
+    url(r'^machines/add/$', views.MachineTagAdd.as_view(), name='machine_tag_add'),
+    url(r'^machines/add/(?P<contact>\d+)$', views.MachineTagAdd.as_view(), name='machine_tag_add_as'),
     # User tag views
     url(r'^tags/$', views.ListView.as_view(), name='tag_list'),
     url(r'^add/$', views.Add.as_view(), name='add'),

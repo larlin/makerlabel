@@ -14,6 +14,7 @@ from .models import MemberBaseTag
 from .models import MachineTag
 from .models import BaseTag
 from .forms import MemberBoxTagForm
+from .forms import MachineTagForm
 
 # Create your views here.
 
@@ -50,6 +51,18 @@ class MemberListView(generic.ListView):
     context_object_name = 'members'
 
 # Machine views
+
+class MachineTagAdd(generic.CreateView):
+    model = MachineTag
+    fields = '__all__'
+    template_name = 'tags/add_machine_tag.html'
+    form_class = MachineTagForm
+    
+    def get_initial(self, **kwargs):
+        if 'contact' in self.kwargs:
+            print (self.kwargs['contact'])
+            return { 'contact' : self.kwargs['contact'] }
+        return {}
 
 class MachineTagDetailView(SingleObjectMixin, generic.ListView):
     model = MachineTag
