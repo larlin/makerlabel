@@ -4,8 +4,13 @@ from .models import MemberBoxTag
 from .models import MemberShelfTag
 from .models import Member
 from .models import MachineTag
+from .models import Comment
 
 # Register your models here.
+
+class CommentInline(admin.TabularInline):
+    model = Comment
+    fk_name = "machine"
 
 class MemberBoxTagAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -23,6 +28,11 @@ class MemberAdmin(admin.ModelAdmin):
 
 class MachineTagAdmin(admin.ModelAdmin):
     list_display = ('contact', 'info')
+    inlines = [
+        CommentInline,
+    ]
+    
+
 
 admin.site.register(Member, MemberAdmin)
 admin.site.register(MemberBoxTag, MemberBoxTagAdmin)

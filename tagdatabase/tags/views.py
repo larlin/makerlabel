@@ -66,7 +66,8 @@ class MachineTagAdd(generic.CreateView):
 
 class MachineTagDetailView(SingleObjectMixin, generic.ListView):
     model = MachineTag
-    template_name = 'tags/machine_tag_detail.html'
+    template_name = 'tags/machinetag_detail.html'
+    context_object_name = 'tag'
     
     def get(self, request, *args, **kwargs):
         self.object = self.get_object(queryset=MachineTag.objects.all())
