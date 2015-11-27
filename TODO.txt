@@ -14,3 +14,9 @@
 * Remove ugly hack in forms.py
 
 * DONE Generate a better pdf file name in models.py DONE
+
+* Extract common super class from MachineTagAdd and Add view classes
+
+* Extract common super class for MachineTagDetailView and MemberDetailView view classes.
+
+* Look for more candidates for super class extraction.
