@@ -31,6 +31,7 @@ class MachineTag(BaseTag):
 class MemberBaseTag(BaseTag):
     member_id = models.ForeignKey('Member')
     comment = models.CharField(max_length=50, blank=True)
+    objects = InheritanceManager()
     
     def get_absolute_url(self):
     	from django.core.urlresolvers import reverse

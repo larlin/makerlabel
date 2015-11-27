@@ -3,4 +3,15 @@
 {{ member.name }} ({{ member.pk }})<br>
 {{ member.box_num }}<br>
 </p>
+
+{% if object_list %}
+    <ul>
+    {% for tag in object_list %}
+        <li><a href="{% url 'tags:details' tag.id %}">{{ tag }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Inga etiketter.</p>
+{% endif %}
+
 <a href="{% url 'tags:add_as' member.pk %}">Lägg till ny</a>

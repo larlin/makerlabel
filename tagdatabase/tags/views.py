@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template.loader import get_template
+from django.views.generic.detail import SingleObjectMixin
 from subprocess import Popen, PIPE
 import tempfile
 import os
@@ -22,9 +23,23 @@ class DetailView(generic.DetailView):
     def get_queryset(self):
         return BaseTag.objects.select_subclasses()
         
-class MemberDetailView(generic.DetailView):
+class MemberDetailView(SingleObjectMixin, generic.ListView):
     model = Member
-    context_object_name = 'member'
+    #context_object_name = 'tags'
+    template_name = 'tags/member_detail.html'
+    
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object(queryset=Member.objects.all())
+        return super(MemberDetailView, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(MemberDetailView, self).get_context_data(**kwargs)
+        context['member'] = self.object
+        return context
+
+    def get_queryset(self):
+        print(dir(self.object))
+        return self.object.memberbasetag_set.filter(visible=True).order_by('-print_date').select_subclasses()
     
 class TagListView(generic.ListView):
     model = BaseTag
