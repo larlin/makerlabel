@@ -11,6 +11,7 @@ from django.views import generic
 from .models import MemberBoxTag
 from .models import Member
 from .models import MemberBaseTag
+from .models import MachineTag
 from .models import BaseTag
 from .forms import MemberBoxTagForm
 
@@ -40,6 +41,16 @@ class MemberDetailView(SingleObjectMixin, generic.ListView):
     def get_queryset(self):
         print(dir(self.object))
         return self.object.memberbasetag_set.filter(visible=True).order_by('-print_date').select_subclasses()
+
+class MainView(generic.ListView):
+    model = Member
+    template_name = 'tags/main.html'
+    context_object_name = 'members'
+    
+    def get_context_data(self, *args, **kwargs):
+        context = super(MainView, self).get_context_data(*args, **kwargs)
+        context['machines'] = MachineTag.objects.all()
+        return context 
     
 class TagListView(generic.ListView):
     model = BaseTag

@@ -3,7 +3,7 @@ from django.conf.urls import patterns, url
 from tags import views
 
 urlpatterns = patterns('',
-    url(r'^$', views.MemberListView.as_view(), name='main'),
+    url(r'^$', views.MainView.as_view(), name='main'),
     url(r'^add/$', views.Add.as_view(), name='add'),
     url(r'^add/(?P<member_id>\d+)$', views.Add.as_view(), name='add_as'),
     url(r'^members/$', views.MemberListView.as_view(), name='member_list'),

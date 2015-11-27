@@ -26,7 +26,13 @@ class BaseTag(models.Model):
     objects = InheritanceManager()
 
 class MachineTag(BaseTag):
+    contact = models.ForeignKey('Member')
     info = models.CharField(max_length=50, blank=True)
+
+class Comment(models.Model):
+    writer = models.ForeignKey('Member')
+    machine = models.ForeignKey('MachineTag')
+    commentText = models.CharField(max_length=400)
 
 class MemberBaseTag(BaseTag):
     member_id = models.ForeignKey('Member')
