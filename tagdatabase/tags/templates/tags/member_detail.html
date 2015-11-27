@@ -1,0 +1,6 @@
+<a href="{% url 'tags:main' %}">Återvänd till lista</a>
+<p>
+{{ member.name }} ({{ member.pk }})<br>
+{{ member.box_num }}<br>
+</p>
+<a href="{% url 'tags:add_as' member.pk %}">Lägg till ny</a>
