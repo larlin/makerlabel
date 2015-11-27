@@ -1,6 +1,7 @@
 from django.db import models
 from django.template import Context
 from subprocess import Popen, PIPE
+from model_utils.managers import InheritanceManager
 import os
 import shutil
 import tags
@@ -21,6 +22,7 @@ class Member(models.Model):
 
 class BaseTag(models.Model):
     print_date = models.DateField('print date')
+    objects = InheritanceManager()
     
 
 class MachineTag(BaseTag):
