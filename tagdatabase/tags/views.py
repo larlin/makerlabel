@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template.loader import get_template
 from django.views.generic.detail import SingleObjectMixin
+from django.shortcuts import redirect
 from subprocess import Popen, PIPE
 import tempfile
 import os
@@ -86,6 +87,19 @@ class MachineTagDetailView(SingleObjectMixin, generic.ListView):
 class DetailView(generic.DetailView):
     model = MemberBoxTag
     context_object_name = 'tag'
+    
+    def render_to_response(self, context):
+        
+        # TODO: Try to fix hacky solution to forwarding to MachineTagDetailView.
+        # Hacky solution to forward machines to the right view to get comments to work.
+        # Probably possible to create a better solution
+        if isinstance(context['object'], MachineTag):
+            print(context)
+            from django.core.urlresolvers import reverse
+            return redirect(reverse('tags:machine_tag_details', args=[str(context['object'].id)]))
+        
+
+        return super(DetailView, self).render_to_response(context)
     
     def get_queryset(self):
         return BaseTag.objects.select_subclasses()
