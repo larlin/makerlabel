@@ -16,17 +16,21 @@ from .models import BaseTag
 from .forms import MemberBoxTagForm
 
 # Create your views here.
+
+class MainView(generic.ListView):
+    model = Member
+    template_name = 'tags/main.html'
+    context_object_name = 'members'
     
-class DetailView(generic.DetailView):
-    model = MemberBoxTag
-    context_object_name = 'tag'
-    
-    def get_queryset(self):
-        return BaseTag.objects.select_subclasses()
-        
+    def get_context_data(self, *args, **kwargs):
+        context = super(MainView, self).get_context_data(*args, **kwargs)
+        context['machines'] = MachineTag.objects.all()
+        return context 
+
+# Member views
+
 class MemberDetailView(SingleObjectMixin, generic.ListView):
     model = Member
-    #context_object_name = 'tags'
     template_name = 'tags/member_detail.html'
     
     def get(self, request, *args, **kwargs):
@@ -41,27 +45,28 @@ class MemberDetailView(SingleObjectMixin, generic.ListView):
     def get_queryset(self):
         print(dir(self.object))
         return self.object.memberbasetag_set.filter(visible=True).order_by('-print_date').select_subclasses()
-
-class MainView(generic.ListView):
+        
+class MemberListView(generic.ListView):
     model = Member
-    template_name = 'tags/main.html'
     context_object_name = 'members'
+
+# Tag views
+
+class DetailView(generic.DetailView):
+    model = MemberBoxTag
+    context_object_name = 'tag'
     
-    def get_context_data(self, *args, **kwargs):
-        context = super(MainView, self).get_context_data(*args, **kwargs)
-        context['machines'] = MachineTag.objects.all()
-        return context 
-    
-class TagListView(generic.ListView):
+    def get_queryset(self):
+        return BaseTag.objects.select_subclasses()
+
+
+class ListView(generic.ListView):
     model = BaseTag
     context_object_name = 'tags'
 	
     def get_queryset(self):
         return BaseTag.objects.filter(visible=True).order_by('-print_date').select_subclasses()
 
-class MemberListView(generic.ListView):
-    model = Member
-    context_object_name = 'members'
 
 class Add(generic.CreateView):
     model = MemberBoxTag
@@ -75,6 +80,7 @@ class Add(generic.CreateView):
             return { 'member_id' : self.kwargs['member_id'] }
         return {}
 
+
 class Delete(generic.DeleteView):
     model = MemberBoxTag
     success_url = reverse_lazy('tags:list')
@@ -85,6 +91,7 @@ class Delete(generic.DeleteView):
         self.object.visible = False
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
+
 
 def download(request, tag_id):
     tag = get_object_or_404(MemberBoxTag, pk=tag_id)
@@ -99,6 +106,7 @@ def download(request, tag_id):
     response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
     
     return response
+
 
 def print_pdf(request, tag_id):
     tag = get_object_or_404(MemberBoxTag, pk=tag_id)
