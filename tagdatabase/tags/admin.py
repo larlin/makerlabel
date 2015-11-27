@@ -3,6 +3,7 @@ from django.contrib import admin
 from .models import MemberBoxTag
 from .models import MemberShelfTag
 from .models import Member
+from .models import MachineTag
 
 # Register your models here.
 
@@ -20,6 +21,10 @@ class MemberShelfTagAdmin(admin.ModelAdmin):
 class MemberAdmin(admin.ModelAdmin):
 	list_display = ('name', 'box_num')
 
+class MachineTagAdmin(admin.ModelAdmin):
+    list_display = ('contact', 'info')
+
 admin.site.register(Member, MemberAdmin)
 admin.site.register(MemberBoxTag, MemberBoxTagAdmin)
 admin.site.register(MemberShelfTag, MemberShelfTagAdmin)
+admin.site.register(MachineTag, MachineTagAdmin)

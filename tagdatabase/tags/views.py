@@ -43,12 +43,29 @@ class MemberDetailView(SingleObjectMixin, generic.ListView):
         return context
 
     def get_queryset(self):
-        print(dir(self.object))
         return self.object.memberbasetag_set.filter(visible=True).order_by('-print_date').select_subclasses()
         
 class MemberListView(generic.ListView):
     model = Member
     context_object_name = 'members'
+
+# Machine views
+
+class MachineTagDetailView(SingleObjectMixin, generic.ListView):
+    model = MachineTag
+    template_name = 'tags/machine_tag_detail.html'
+    
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object(queryset=MachineTag.objects.all())
+        return super(MachineTagDetailView, self).get(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super(MachineTagDetailView, self).get_context_data(**kwargs)
+        context['machine_tag'] = self.object
+        return context
+        
+    def get_queryset(self):
+        return self.object.comment_set.all()
 
 # Tag views
 

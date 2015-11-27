@@ -7,7 +7,9 @@ urlpatterns = patterns('',
     # Member views
     url(r'^members/$', views.MemberListView.as_view(), name='member_list'),
     url(r'^members/(?P<pk>\d+)/$', views.MemberDetailView.as_view(), name='member_details'),
-    # Tag views
+    # Machine tag view
+    url(r'^machines/(?P<pk>\d+)/$', views.MachineTagDetailView.as_view(), name='machine_tag_details'),
+    # User tag views
     url(r'^tags/$', views.ListView.as_view(), name='tag_list'),
     url(r'^add/$', views.Add.as_view(), name='add'),
     url(r'^add/(?P<member_id>\d+)$', views.Add.as_view(), name='add_as'),
