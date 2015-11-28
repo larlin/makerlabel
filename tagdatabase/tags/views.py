@@ -1,6 +1,5 @@
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
-from django.template.loader import get_template
 from django.views.generic.detail import SingleObjectMixin
 from django.shortcuts import redirect
 from subprocess import Popen, PIPE
@@ -154,10 +153,10 @@ class Delete(generic.DeleteView):
 
 
 def download(request, tag_id):
-    tag = get_object_or_404(MemberBoxTag, pk=tag_id)
-
+    tag = get_object_or_404(BaseTag.objects.select_subclasses(), pk=tag_id)
+    
     with tempfile.TemporaryDirectory() as tempdir:
-        filename = tag.generate_pdf(tempdir, get_template('latex/ladtagA6.tex'), request.META['HTTP_HOST'])
+        filename = tag.generate_pdf(tempdir, request.META['HTTP_HOST'])
         with open(os.path.join(tempdir, filename), 'rb') as f:
             pdf = f.read()
      
@@ -171,7 +170,7 @@ def download(request, tag_id):
 def print_pdf(request, tag_id):
     tag = get_object_or_404(MemberBoxTag, pk=tag_id)
     with tempfile.TemporaryDirectory() as tempdir:        
-        tempfilename = tag.generate_pdf(tempdir, get_template('latex/ladtagA6.tex'), request.META['HTTP_HOST'])
+        tempfilename = tag.generate_pdf(tempdir, request.META['HTTP_HOST'])
         
         #lp ladtagA6.pdf -o media=A5 -o landscape -o sides=two-sides-long-edge -o number-up=2 -o fit-to-page
         #lp ladtagA6.pdf -o media=A4 -o landscape -o sides=two-sides-long-edge -o number-up=4 -o fit-to-page

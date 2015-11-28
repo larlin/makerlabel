@@ -1,5 +1,6 @@
 from django.db import models
 from django.template import Context
+from django.template.loader import get_template
 from subprocess import Popen, PIPE
 from model_utils.managers import InheritanceManager
 import os
@@ -24,6 +25,37 @@ class BaseTag(models.Model):
     print_date = models.DateField('print date')
     visible = models.BooleanField(default=True)
     objects = InheritanceManager()
+    
+    sentinel = object()
+    def generate_pdf(self, work_directory, url, destination=sentinel):
+        if destination is self.sentinel:
+            destination = work_directory
+        
+        template = get_template('latex/'+type(self).__name__+'.tex')
+        
+        filename = str(self)
+        
+        # Render latex from template provided
+        context = Context({ 'tag': self, 'url':'{}/{}'.format(url, self.pk)})
+        rendered_tpl = template.render(context).encode('utf-8')
+        
+        # Copy files needed for the latex run to the work directory.
+        latex_static_dir = os.path.dirname(tags.__file__) + "/latex_static/"
+        for file_name in os.listdir(latex_static_dir):
+            print ("Copying: "+file_name+" to "+work_directory)
+            shutil.copy(latex_static_dir+"/"+file_name, work_directory)
+        
+        # Run pdflatex twice, for complete rendering of TOC and such.
+        for i in range(2):
+            process = Popen(
+                ['pdflatex', '-output-directory', destination, '--jobname', filename],
+                stdin=PIPE,
+                stdout=PIPE,
+                cwd=work_directory
+            )
+            process.communicate(rendered_tpl)
+        
+        return filename+".pdf"
 
 class MachineTag(BaseTag):
     name = models.CharField(max_length=50, blank=False)
@@ -87,33 +119,4 @@ class MemberBoxTag(MemberBaseTag):
     
     def __unicode__( self ):
         return "{}({})".format(self.get_formated_name(), self.box_number)
-        
-    sentinel = object()
-    def generate_pdf(self, work_directory, template, url, destination=sentinel):
-        if destination is self.sentinel:
-            destination = work_directory
-        
-        filename = "{}({})".format(self.get_formated_name(), self.box_number)
-        
-        # Render latex from template provided
-        context = Context({ 'tag': self, 'url':'{}/{}'.format(url, self.pk)})
-        rendered_tpl = template.render(context).encode('utf-8')
-        
-        # Copy files needed for the latex run to the work directory.
-        latex_static_dir = os.path.dirname(tags.__file__) + "/latex_static/"
-        for file_name in os.listdir(latex_static_dir):
-            print ("Copying: "+file_name+" to "+work_directory)
-            shutil.copy(latex_static_dir+"/"+file_name, work_directory)
-        
-        # Run pdflatex twice, for complete rendering of TOC and such.
-        for i in range(2):
-            process = Popen(
-                ['pdflatex', '-output-directory', destination, '--jobname', filename],
-                stdin=PIPE,
-                stdout=PIPE,
-                cwd=work_directory
-            )
-            process.communicate(rendered_tpl)
-        
-        return filename+".pdf"
 
