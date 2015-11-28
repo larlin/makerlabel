@@ -14,6 +14,7 @@ from .models import Member
 from .models import MemberBaseTag
 from .models import MachineTag
 from .models import BaseTag
+from .models import Comment
 from .forms import MemberBoxTagForm
 from .forms import MachineTagForm
 
@@ -81,6 +82,20 @@ class MachineTagDetailView(SingleObjectMixin, generic.ListView):
         
     def get_queryset(self):
         return self.object.comment_set.all()
+
+# Comment views
+
+class CommentAdd(generic.CreateView):
+    model = Comment
+    fields = '__all__'
+    template_name = 'tags/addComment.html'
+    context_object_name = 'comment'
+    
+    def get_initial(self, **kwargs):
+        if 'machine' in self.kwargs:
+            print("Found machine")
+            return { 'machine' : self.kwargs['machine'] }
+        return {}
 
 # Tag views
 

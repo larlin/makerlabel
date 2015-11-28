@@ -44,6 +44,10 @@ class Comment(models.Model):
     writer = models.ForeignKey('Member')
     machine = models.ForeignKey('MachineTag')
     commentText = models.CharField(max_length=400)
+    
+    def get_absolute_url(self):
+        from django.core.urlresolvers import reverse
+        return reverse('tags:machine_tag_details', args=[str(self.machine.id)])
 
 class MemberBaseTag(BaseTag):
     member_id = models.ForeignKey('Member')

@@ -4,6 +4,8 @@
 {{ tag.info }}
 </p>
 
+<a href="{% url 'tags:machine_tag_comment_to' tag.id %}">Skriv en kommentar</a>
+
 {% if object_list %}
     <ul>
     {% for comment in object_list %}
