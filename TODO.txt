@@ -22,3 +22,5 @@
 * Extract common super class for MachineTagDetailView and MemberDetailView view classes.
 
 * Look for more candidates for super class extraction.
+
+* Timestamp for comments
