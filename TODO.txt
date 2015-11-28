@@ -23,4 +23,4 @@
 
 * Look for more candidates for super class extraction.
 
-* Timestamp for comments
+* DONE Timestamp for comments DONE
