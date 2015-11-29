@@ -27,11 +27,11 @@ class BaseTag(models.Model):
     objects = InheritanceManager()
     
     sentinel = object()
-    def generate_pdf(self, work_directory, url, destination=sentinel):
+    def generate_pdf(self, work_directory, url, printerType, destination=sentinel):
         if destination is self.sentinel:
             destination = work_directory
         
-        template = get_template('latex/'+type(self).__name__+'.tex')
+        template = get_template('latex/'+type(self).__name__+'-'+printerType+'.tex')
         
         filename = str(self)
         

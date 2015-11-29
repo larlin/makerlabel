@@ -153,11 +153,11 @@ class Delete(generic.DeleteView):
         return HttpResponseRedirect(self.get_success_url())
 
 class DownloadView(generic.View):
-    def get(self, request, tag_id):
+    def get(self, request, tag_id, printer = "paper"):
         tag = get_object_or_404(BaseTag.objects.select_subclasses(), pk=tag_id)
         
         with tempfile.TemporaryDirectory() as tempdir:
-            filename = tag.generate_pdf(tempdir, request.META['HTTP_HOST'])
+            filename = tag.generate_pdf(tempdir, request.META['HTTP_HOST'], printer)
             with open(os.path.join(tempdir, filename), 'rb') as f:
                 pdf = f.read()
         
@@ -167,10 +167,10 @@ class DownloadView(generic.View):
         return response
 
 class PrintView(generic.View):
-    def get(self, request, tag_id, printer = ""):
+    def get(self, request, tag_id, printer = "paper"):
         tag = get_object_or_404(MemberBoxTag, pk=tag_id)
         with tempfile.TemporaryDirectory() as tempdir:        
-            tempfilename = tag.generate_pdf(tempdir, request.META['HTTP_HOST'])
+            tempfilename = tag.generate_pdf(tempdir, request.META['HTTP_HOST'], printer)
             
             #lp ladtagA6.pdf -o media=A5 -o landscape -o sides=two-sides-long-edge -o number-up=2 -o fit-to-page
             #lp ladtagA6.pdf -o media=A4 -o landscape -o sides=two-sides-long-edge -o number-up=4 -o fit-to-page
