@@ -167,7 +167,7 @@ class DownloadView(generic.View):
         return response
 
 class PrintView(generic.View):
-    def get(self, request, tag_id):
+    def get(self, request, tag_id, printer = ""):
         tag = get_object_or_404(MemberBoxTag, pk=tag_id)
         with tempfile.TemporaryDirectory() as tempdir:        
             tempfilename = tag.generate_pdf(tempdir, request.META['HTTP_HOST'])
@@ -177,18 +177,18 @@ class PrintView(generic.View):
             #            ['lp', tempfilename, '-o', 'media=A5', '-o', 'landscape', '-o', 'sides=two-sides-long-edge',
             #    '-o', 'number-up=2', '-o', 'fit-to-page'],
             
-            printer = ""
+            arguments = ['lp', tempfilename, '-o', 'media=A4', '-o', 'portrait', '-o', 'sides=two-sides-long-edge',
+                '-o', 'number-up=4', '-o', 'fit-to-page']
             
-            if hasattr(settings.DEBUG, 'PRINTERS'):
-                printer = "-P "+settings.DEBUG['paper-printer']
+            if hasattr(settings, 'PRINTERS') and printer != "":
+                arguments.append("-d")
+                arguments.append(settings.PRINTERS[printer+"-printer"].lower())
             
             printprocess = Popen(
-                ['lp', tempfilename, '-o', 'media=A4', '-o', 'portrait', '-o', 'sides=two-sides-long-edge',
-                '-o', 'number-up=4', '-o', 'fit-to-page'],
+                arguments,
                 stdin=PIPE,
                 stdout=PIPE,
                 cwd=tempdir
             )
             printprocess.wait()
         return HttpResponseRedirect(reverse('tags:details_long', args=(tag_id,)))
-

@@ -22,6 +22,6 @@ urlpatterns = patterns('',
     url(r'^(?P<pk>\d+)/view/$', views.DetailView.as_view(), name='details_long'),
     url(r'^(?P<pk>\d+)/delete/$', views.Delete.as_view(), name='delete'),
     url(r'^(?P<tag_id>\d+)/download/$', views.DownloadView.as_view(), name='download'),
-    url(r'^(?P<tag_id>\d+)/print/$', views.PrintView.as_view(), name='print_pdf'),
+    url(r'^(?P<tag_id>\d+)/print/$', views.PrintView.as_view(), {'printer': 'paper'}, name='print_pdf'),
 )
 
