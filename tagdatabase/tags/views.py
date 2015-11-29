@@ -7,6 +7,7 @@ import tempfile
 import os
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.views import generic
+from django.conf import settings
 
 from .models import MemberBoxTag
 from .models import Member
@@ -151,38 +152,43 @@ class Delete(generic.DeleteView):
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
 
-
-def download(request, tag_id):
-    tag = get_object_or_404(BaseTag.objects.select_subclasses(), pk=tag_id)
-    
-    with tempfile.TemporaryDirectory() as tempdir:
-        filename = tag.generate_pdf(tempdir, request.META['HTTP_HOST'])
-        with open(os.path.join(tempdir, filename), 'rb') as f:
-            pdf = f.read()
-     
-    
-    response = HttpResponse(pdf, content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
-    
-    return response
-
-
-def print_pdf(request, tag_id):
-    tag = get_object_or_404(MemberBoxTag, pk=tag_id)
-    with tempfile.TemporaryDirectory() as tempdir:        
-        tempfilename = tag.generate_pdf(tempdir, request.META['HTTP_HOST'])
+class DownloadView(generic.View):
+    def get(self, request, tag_id):
+        tag = get_object_or_404(BaseTag.objects.select_subclasses(), pk=tag_id)
         
-        #lp ladtagA6.pdf -o media=A5 -o landscape -o sides=two-sides-long-edge -o number-up=2 -o fit-to-page
-        #lp ladtagA6.pdf -o media=A4 -o landscape -o sides=two-sides-long-edge -o number-up=4 -o fit-to-page
-        #            ['lp', tempfilename, '-o', 'media=A5', '-o', 'landscape', '-o', 'sides=two-sides-long-edge',
-        #    '-o', 'number-up=2', '-o', 'fit-to-page'],
-        printprocess = Popen(
-            ['lp', tempfilename, '-o', 'media=A4', '-o', 'portrait', '-o', 'sides=two-sides-long-edge',
-            '-o', 'number-up=4', '-o', 'fit-to-page'],
-            stdin=PIPE,
-            stdout=PIPE,
-            cwd=tempdir
-        )
-        printprocess.wait()
-    return HttpResponseRedirect(reverse('tags:details_long', args=(tag_id,)))
+        with tempfile.TemporaryDirectory() as tempdir:
+            filename = tag.generate_pdf(tempdir, request.META['HTTP_HOST'])
+            with open(os.path.join(tempdir, filename), 'rb') as f:
+                pdf = f.read()
+        
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
+        
+        return response
+
+class PrintView(generic.View):
+    def get(self, request, tag_id):
+        tag = get_object_or_404(MemberBoxTag, pk=tag_id)
+        with tempfile.TemporaryDirectory() as tempdir:        
+            tempfilename = tag.generate_pdf(tempdir, request.META['HTTP_HOST'])
+            
+            #lp ladtagA6.pdf -o media=A5 -o landscape -o sides=two-sides-long-edge -o number-up=2 -o fit-to-page
+            #lp ladtagA6.pdf -o media=A4 -o landscape -o sides=two-sides-long-edge -o number-up=4 -o fit-to-page
+            #            ['lp', tempfilename, '-o', 'media=A5', '-o', 'landscape', '-o', 'sides=two-sides-long-edge',
+            #    '-o', 'number-up=2', '-o', 'fit-to-page'],
+            
+            printer = ""
+            
+            if hasattr(settings.DEBUG, 'PRINTERS'):
+                printer = "-P "+settings.DEBUG['paper-printer']
+            
+            printprocess = Popen(
+                ['lp', tempfilename, '-o', 'media=A4', '-o', 'portrait', '-o', 'sides=two-sides-long-edge',
+                '-o', 'number-up=4', '-o', 'fit-to-page'],
+                stdin=PIPE,
+                stdout=PIPE,
+                cwd=tempdir
+            )
+            printprocess.wait()
+        return HttpResponseRedirect(reverse('tags:details_long', args=(tag_id,)))
 

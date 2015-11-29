@@ -27,6 +27,9 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = ["tags.makerslink.se"]
 
+PRINTERS = { 'paper-printer' : 'Apollo',
+             'label-printer' : 'Apollo'}
+
 
 # Application definition
 
