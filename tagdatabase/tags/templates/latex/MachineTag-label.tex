@@ -37,9 +37,10 @@
 % & \multicolumn{3}{l}{\name}  \\
 \begin{tabular}{ll}
  \multirow{4}{*}{\qrcode[height=1.6cm]{\tagurl}} & \includegraphics[width=12px,height=12px]{logo.pdf} \\
- & \includegraphics[width=12px,height=12px]{rtfm.png} \\
- & \includegraphics[width=12px,height=12px]{loan.png} \\
- & \includegraphics[width=12px,height=12px]{dnh.png} \\
+ {% for o in icons %}
+    %& \includegraphics[width=12px,height=12px]{ {{ o }} } \\
+    & \includegraphics[width=12px,height=12px]{% templatetag openbrace %}{{ o }}{% templatetag closebrace %} \\
+ {% endfor %}
  \multicolumn{2}{c}{\name} \\
 \end{tabular}
 \end{document}

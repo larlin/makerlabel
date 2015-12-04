@@ -26,17 +26,22 @@ class BaseTag(models.Model):
     visible = models.BooleanField(default=True)
     objects = InheritanceManager()
     
+    def get_icons(self):
+        return []
+    
     sentinel = object()
     def generate_pdf(self, work_directory, url, printerType, destination=sentinel):
         if destination is self.sentinel:
             destination = work_directory
+        
+        emptyIcon = "empty.png"
         
         template = get_template('latex/'+type(self).__name__+'-'+printerType+'.tex')
         
         filename = str(self)
         
         # Render latex from template provided
-        context = Context({ 'tag': self, 'url':'{}/{}'.format(url, self.pk)})
+        context = Context({ 'tag': self, 'icons':self.get_icons(), 'url':'{}/{}'.format(url, self.pk)})
         rendered_tpl = template.render(context).encode('utf-8')
         
         # Copy files needed for the latex run to the work directory.
@@ -61,6 +66,26 @@ class MachineTag(BaseTag):
     name = models.CharField(max_length=50, blank=False)
     contact = models.ForeignKey('Member')
     info = models.CharField(max_length=400, blank=True)
+    dnh = models.BooleanField(default=False)
+    loan = models.BooleanField(default=False)
+    rtfm = models.BooleanField(default=False)
+    
+    def get_icons(self):
+        icons = []
+        
+        if self.rtfm :
+            icons.append("rtfm.png")
+        
+        if self.loan:
+            icons.append("loan.png")
+        
+        if self.dnh:
+            icons.append("dnh.png")
+        
+        for i in range(len(icons), 3):
+            icons.append("empty.png")
+        
+        return icons
     
     def get_absolute_url(self):
         from django.core.urlresolvers import reverse
