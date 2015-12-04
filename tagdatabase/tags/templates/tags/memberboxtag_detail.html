@@ -4,6 +4,6 @@
 {{ tag.print_date }}<br>
 {{ tag.comment }}<br>
 </p>
-<a href="{% url 'tags:download' tag.id %}">Ladda ner</a>
-<a href="{% url 'tags:print_pdf' tag.id %}">Skriv ut</a>
+<a href="{% url 'tags:download' tag.id %}">Ladda ner</a><br>
+<a href="{% url 'tags:print_paper' tag.id %}">Skriv ut</a><br>
 <a href="{% url 'tags:delete' tag.id %}">Ta bort</a>

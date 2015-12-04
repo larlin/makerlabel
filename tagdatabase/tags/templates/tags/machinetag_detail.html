@@ -3,8 +3,10 @@
 {{ tag.name }}<br>
 {{ tag.info }}
 </p>
+<a href="{% url 'tags:download_label' tag.id %}">Ladda ner</a><br>
+<a href="{% url 'tags:print_label' tag.id %}">Skriv ut</a><br>
 
-<a href="{% url 'tags:machine_tag_comment_to' tag.id %}">Skriv en kommentar</a>
+<a href="{% url 'tags:machine_tag_comment_to' tag.id %}">Skriv en kommentar</a><br>
 
 {% if object_list %}
     <ul>
