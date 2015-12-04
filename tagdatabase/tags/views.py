@@ -168,7 +168,7 @@ class DownloadView(generic.View):
 
 class PrintView(generic.View):
     def get(self, request, tag_id, printer = "paper"):
-        tag = get_object_or_404(MemberBoxTag, pk=tag_id)
+        tag = get_object_or_404(BaseTag.objects.select_subclasses(), pk=tag_id)
         with tempfile.TemporaryDirectory() as tempdir:        
             tempfilename = tag.generate_pdf(tempdir, request.META['HTTP_HOST'], printer)
             
