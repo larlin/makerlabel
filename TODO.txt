@@ -24,3 +24,7 @@
 * Look for more candidates for super class extraction.
 
 * DONE Timestamp for comments DONE
+
+* Ta bort medlemmar utan lådor från listan
+
+* BUGG: Medelmmar med icke ASCII kan inte skriva ut

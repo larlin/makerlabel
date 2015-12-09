@@ -3,7 +3,7 @@
 \documentclass[8pt]{extarticle}
 \usepackage{fancyhdr}
 %\usepackage[paperheight=28mm,paperwidth=70mm,bmargin=0.5cm,tmargin=0.1cm,lmargin=0.2cm,rmargin=0.2cm,footskip=0.4cm,heightrounded,showframe]{geometry}
-\usepackage[paperheight=32mm,paperwidth=28mm,bmargin=0.6cm,tmargin=0.1cm,lmargin=0.1cm,rmargin=0.1cm,footskip=0.1cm,heightrounded]{geometry}
+\usepackage[paperheight=22mm,paperwidth=62mm,bmargin=0.1cm,tmargin=0.1cm,lmargin=0.1cm,rmargin=0.1cm,footskip=0.1cm,heightrounded]{geometry}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -28,20 +28,19 @@
 %\lfoot{\tagprintdate}
 %\rfoot{\membername}
 %\lfoot{\includegraphics[width=12px,height=12px]{logo.pdf}}
-\rfoot{\tagprintdate}
+%\rfoot{\tagprintdate}
 
 \begin{document}
 
 %\multirow{3}{*}{\qrcode[height=1.5cm]{\tagurl}} & \includegraphics[width=12px,height=12px]{logo.pdf} & \includegraphics[width=12px,height=12px]{rtfm.png} & \\
 % & \includegraphics[width=12px,height=12px]{loan.png} & \includegraphics[width=12px,height=12px]{dnh.png} & \\
 % & \multicolumn{3}{l}{\name}  \\
-\begin{tabular}{ll}
- \multirow{4}{*}{\qrcode[height=1.6cm]{\tagurl}} & \includegraphics[width=12px,height=12px]{logo.pdf} \\
- {% for o in icons %}
-    %& \includegraphics[width=12px,height=12px]{ {{ o }} } \\
-    & \includegraphics[width=12px,height=12px]{% templatetag openbrace %}{{ o }}{% templatetag closebrace %} \\
- {% endfor %}
- \multicolumn{2}{c}{\name} \\
+\begin{tabular}{lll}
+ \multirow{4}{*}{\qrcode[height=1.6cm]{\tagurl}} & \includegraphics[width=12px,height=12px]{logo.pdf} & \name \\
+ & \includegraphics[width=12px,height=12px]{% templatetag openbrace %}{{ icons.0 }}{% templatetag closebrace %} & \tagprintdate \\
+ & \includegraphics[width=12px,height=12px]{% templatetag openbrace %}{{ icons.1 }}{% templatetag closebrace %} & \membername \\
+ & \includegraphics[width=12px,height=12px]{% templatetag openbrace %}{{ icons.2 }}{% templatetag closebrace %} &  \\
+ %\multicolumn{2}{c}{\name} \\
 \end{tabular}
 \end{document}
 {% endautoescape %}
