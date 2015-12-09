@@ -181,7 +181,7 @@ class PrintView(generic.View):
                 arguments = ['lp', tempfilename, '-o', 'media=A4', '-o', 'portrait', '-o', 'sides=two-sides-long-edge',
                              '-o', 'number-up=4', '-o', 'fit-to-page']
             else:
-                arguments = ['lp', tempfilename, '-o', 'portrait', '-o', 'fit-to-page']
+                arguments = ['lp', tempfilename, '-o', 'portrait']
             
             if hasattr(settings, 'PRINTERS') and printer != "":
                 arguments.append("-d")
