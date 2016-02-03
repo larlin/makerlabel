@@ -6,7 +6,13 @@ Dependecies:
     django-model-utils
     Lot's of latex packages:
         xcolor, array, inputenc, caption, adjustbox, wrapfig, geometry, isodate, parskip
-        
+
+Tweaks:
+    
+    Debian by default runs apache in a LANG=C enviroment.
+    To fix this change the row with LANG=C /etc/apache2/envvars
+    to LANG=en_US.UTF-8 or some other UTF-8 enviroment.
+
 Start:
     Make sure dependecies are installed on the system.
     

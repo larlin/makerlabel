@@ -27,5 +27,8 @@
 
 * Ta bort medlemmar utan lådor från listan
 
-* BUGG: Medelmmar med icke ASCII kan inte skriva ut
-        Funkar med dev servern, problem när det körs som service? Körs i ASCII miljö?
+* DONE BUGG: Medelmmar med icke ASCII kan inte skriva ut
+             Funkar med dev servern, problem när det körs som service? Körs i ASCII miljö?
+             Beror på att apache körs med LANG=C i debian. Ändra i /etc/apache2/envvars till
+             LANG=en_US.UTF-8 eller någon annan UTF-8 miljö.
+        
