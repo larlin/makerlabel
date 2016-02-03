@@ -28,3 +28,4 @@
 * Ta bort medlemmar utan lådor från listan
 
 * BUGG: Medelmmar med icke ASCII kan inte skriva ut
+        Funkar med dev servern, problem när det körs som service? Körs i ASCII miljö?
