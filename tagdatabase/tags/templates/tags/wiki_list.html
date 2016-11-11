@@ -1,0 +1,9 @@
+{% if wikiList %}
+    <ul>
+    {% for article in wikiList.query.allpages %}
+        <li><a href="{% url 'tags:print_wiki' article.pageid %}">{{ article.title }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Hittade inga artiklar i wikin..</p>
+{% endif %}

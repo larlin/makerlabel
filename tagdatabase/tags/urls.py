@@ -4,6 +4,9 @@ from tags import views
 
 urlpatterns = patterns('',
     url(r'^$', views.MainView.as_view(), name='main'),
+    # Wiki views
+     url(r'^wiki/$', views.WikiListView.as_view(), name='wiki_list'),
+     url(r'^wiki/(?P<wiki_id>\d+)/print$', views.WikiListView.as_view(), name='print_wiki'),
     # Member views
     url(r'^members/$', views.MemberListView.as_view(), name='member_list'),
     url(r'^members/(?P<pk>\d+)/$', views.MemberDetailView.as_view(), name='member_details'),
