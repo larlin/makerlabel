@@ -1,11 +1,9 @@
 from django.db import models
 from django.template import Context
-from django.template.loader import get_template
-from subprocess import Popen, PIPE
 from model_utils.managers import InheritanceManager
-import os
-import shutil
 import tags
+import os
+from .pdf_gen import GeneratePdf
 
 # Create your models here.
 
@@ -25,42 +23,21 @@ class BaseTag(models.Model):
     print_date = models.DateField('print date')
     visible = models.BooleanField(default=True)
     objects = InheritanceManager()
+    pdfGen = GeneratePdf(os.path.dirname(tags.__file__) + "/latex_static/")
     
     def get_icons(self):
         return []
     
     sentinel = object()
     def generate_pdf(self, work_directory, url, printerType, destination=sentinel):
+        
+        filename = str(self)
+        context = Context({ 'tag': self, 'icons':self.get_icons(), 'url':'{}/{}'.format(url, self.pk)})
+        
         if destination is self.sentinel:
             destination = work_directory
         
-        emptyIcon = "empty.png"
-        
-        template = get_template('latex/'+type(self).__name__+'-'+printerType+'.tex')
-        
-        filename = str(self)
-        
-        # Render latex from template provided
-        context = Context({ 'tag': self, 'icons':self.get_icons(), 'url':'{}/{}'.format(url, self.pk)})
-        rendered_tpl = template.render(context).encode('utf-8')
-        
-        # Copy files needed for the latex run to the work directory.
-        latex_static_dir = os.path.dirname(tags.__file__) + "/latex_static/"
-        for file_name in os.listdir(latex_static_dir):
-            print ("Copying: "+file_name+" to "+work_directory)
-            shutil.copy(latex_static_dir+"/"+file_name, work_directory)
-        
-        # Run pdflatex twice, for complete rendering of TOC and such.
-        for i in range(2):
-            process = Popen(
-                ['pdflatex', '-output-directory', destination, '--jobname', filename],
-                stdin=PIPE,
-                stdout=PIPE,
-                cwd=work_directory
-            )
-            process.communicate(rendered_tpl)
-        
-        return filename+".pdf"
+        return self.pdfGen.generate('latex/'+type(self).__name__+'-'+printerType+'.tex', filename, context, work_directory, url, destination)
 
 class MachineTag(BaseTag):
     name = models.CharField(max_length=50, blank=False)
