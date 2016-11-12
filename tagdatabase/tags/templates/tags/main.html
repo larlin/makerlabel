@@ -16,7 +16,10 @@
 {% if machines %}
     <ul>
     {% for machine in machines %}
-        <li><a href="{% url 'tags:machine_tag_details' machine.id %}">{{ machine }}</a></li>
+        <li>
+            <a href="{% url 'tags:machine_tag_details' machine.id %}">{{ machine }}</a> 
+            (<a href="{% url 'tags:machine_tag_update' machine.id %}">Ändra</a>)        
+        </li>
     {% endfor %}
     </ul>
 {% else %}
