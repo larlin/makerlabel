@@ -124,9 +124,14 @@ class DetailView(generic.DetailView):
         # Hacky solution to forward machines to the right view to get comments to work.
         # Probably possible to create a better solution
         if isinstance(context['object'], MachineTag):
-            print(context)
+            print(context['tag'].jumpWiki)
             from django.core.urlresolvers import reverse
-            return redirect(reverse('tags:machine_tag_details', args=[str(context['object'].id)]))
+            
+            # Check if we want to jump to a wikiLink and if that link is set to something.
+            if context['tag'].jumpWiki and context['tag'].wikiLink:
+                return redirect(context['tag'].wikiLink)
+            else:
+                return redirect(reverse('tags:machine_tag_details', args=[str(context['object'].id)]))
         
 
         return super(DetailView, self).render_to_response(context)

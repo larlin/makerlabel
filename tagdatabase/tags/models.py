@@ -46,6 +46,8 @@ class MachineTag(BaseTag):
     dnh = models.BooleanField(default=False)
     loan = models.BooleanField(default=False)
     rtfm = models.BooleanField(default=False)
+    wikiLink = models.URLField(max_length=500, blank=True)
+    jumpWiki = models.BooleanField(default=False)
     
     def get_icons(self):
         icons = []
