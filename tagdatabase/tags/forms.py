@@ -3,6 +3,7 @@ from django import forms
 from .models import MemberBoxTag
 from .models import MachineTag
 from .models import Member
+from .utils import Wiki
 from django.forms.models import inlineformset_factory
 from django.utils import timezone
 from django.core.exceptions import ValidationError
@@ -95,4 +96,10 @@ class MachineTagForm(AddForeginMember):
         tag = super(MachineTagForm, self).save(commit=False)
         tag.print_date = timezone.now()
         return super(MachineTagForm, self).save(commit=commit)
+
+class UpdateMachineTagForm(ModelForm):
+    wikiLink = forms.ChoiceField( choices=Wiki.fetch_article_list_as_dict(), required=False)
+    class Meta:
+        model = MachineTag
+        fields = ('wikiLink', 'jumpWiki' )
 

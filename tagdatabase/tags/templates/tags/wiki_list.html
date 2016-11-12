@@ -1,6 +1,6 @@
 {% if wikiList %}
     <ul>
-    {% for article in wikiList.query.allpages %}
+    {% for article in wikiList %}
         <li><a href="{% url 'tags:print_wiki' article.pageid %}">{{ article.title }}</a></li>
     {% endfor %}
     </ul>

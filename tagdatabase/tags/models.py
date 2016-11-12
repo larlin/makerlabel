@@ -3,7 +3,7 @@ from django.template import Context
 from model_utils.managers import InheritanceManager
 import tags
 import os
-from .pdf_gen import GeneratePdf
+from .utils import GeneratePdf
 
 # Create your models here.
 

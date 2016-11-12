@@ -1,7 +1,9 @@
 from django.template.loader import get_template
 from subprocess import Popen, PIPE
+from urllib.request import urlopen
 import os
 import shutil
+import json
 
 class GeneratePdf:
     latex_static_dir = ""
@@ -32,3 +34,17 @@ class GeneratePdf:
         
         return filename+".pdf"
 
+class Wiki:
+    def fetch_article_list():
+        # Todo loop over multiple fetches until all is fetched instead of fetchin 500 and trust that we get all
+        wikiList = urlopen("http://wiki.makerslink.se/api.php?action=query&list=allpages&aplimit=500&rawcontinue=true&apfilterredir=nonredirects&format=json").read().decode('utf-8')
+        
+        return json.loads(wikiList)['query']['allpages']
+        
+    def fetch_article_list_as_dict():
+        result = list()
+        result.append(['','Ingen'])
+        for row in Wiki.fetch_article_list():
+            result.append(["http://wiki.makerslink.se/"+row['title'], row['title']])
+        return tuple(result)
+            

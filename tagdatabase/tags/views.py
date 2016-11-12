@@ -5,8 +5,6 @@ from django.shortcuts import redirect
 from subprocess import Popen, PIPE
 import tempfile
 import os
-import json
-from urllib.request import urlopen
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.views import generic
 from django.conf import settings
@@ -19,6 +17,8 @@ from .models import BaseTag
 from .models import Comment
 from .forms import MemberBoxTagForm
 from .forms import MachineTagForm
+from .forms import UpdateMachineTagForm
+from .utils import Wiki
 
 # Create your views here.
 
@@ -58,7 +58,7 @@ class MemberListView(generic.ListView):
 
 class MachineTagAdd(generic.CreateView):
     model = MachineTag
-    fields = '__all__'
+    form_class = MachineTagForm
     template_name = 'tags/add_machine_tag.html'
     
     def get_initial(self, **kwargs):
@@ -68,8 +68,8 @@ class MachineTagAdd(generic.CreateView):
         return {}
 
 class MachineTagUpdate(generic.UpdateView):
-    fields = ['wikiLink', 'jumpWiki']
     model = MachineTag
+    form_class = UpdateMachineTagForm
     template_name = 'tags/update_machine_tag.html'
 
 class MachineTagDetailView(SingleObjectMixin, generic.ListView):
@@ -110,9 +110,10 @@ class WikiListView(generic.TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super(WikiListView, self).get_context_data(**kwargs)
-        wikiList = urlopen("http://wiki.makerslink.se/api.php?action=query&list=allpages&aplimit=500&rawcontinue=true&apfilterredir=nonredirects&format=json").read().decode('utf-8')
         
-        context['wikiList'] = json.loads(wikiList)
+        context['wikiList'] = Wiki.fetch_article_list()
+        
+        print(context['wikiList'])
         
         return context
 

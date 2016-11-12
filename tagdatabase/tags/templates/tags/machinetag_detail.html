@@ -1,11 +1,16 @@
 <a href="{% url 'tags:main' %}">Återvänd till lista</a>
 <p>
 {{ tag.name }}<br>
-{{ tag.info }}
+{{ tag.info }}<br>
+{% if tag.wikiLink %}
+    Länkar {% if tag.jumpWiki %} automatiskt {% endif %} till: <a href="{{ tag.wikiLink }}">{{ tag.wikiLink }}</a>
+{% endif %}
 </p>
+<a href="{% url 'tags:machine_tag_update' tag.id %}">Ändra</a><br>
+<br>
 <a href="{% url 'tags:download_label' tag.id %}">Ladda ner</a><br>
 <a href="{% url 'tags:print_label' tag.id %}">Skriv ut</a><br>
-
+<br>
 <a href="{% url 'tags:machine_tag_comment_to' tag.id %}">Skriv en kommentar</a><br>
 
 {% if object_list %}
